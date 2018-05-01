@@ -7,7 +7,7 @@ def play(file_):
         wf = wave.open(file_, 'rb')
         p = pyaudio.PyAudio()
         stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
-                        channels=wf.getnchannels(),
+                        channels=2,
                         rate=wf.getframerate(),
                         output=True)
 
@@ -28,7 +28,7 @@ import time
 from struct import pack
 from math import sin, pi
 import wave
-port = '/dev/tty.usbmodem1411'
+port = '/dev/serial/by-id/usb-SEGGER_J-Link_000760008519-if00'
 deca = serial.Serial(port,115200,timeout=5)
 
 def read_serial():
@@ -49,7 +49,7 @@ def audio(left, right, file_name):
     delta = abs(left - right)
     if left < avg:
         left -= delta
-        right -= delta
+        right += delta
     else:
         left += delta
         right -= delta
